@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { withRouter } from "react-router";
+import { withRouter, Redirect } from "react-router";
 import base from "../auth/base";
 
 const SignUp = ({ history }) => {
@@ -18,6 +18,11 @@ const SignUp = ({ history }) => {
         }
     }, [history]);
 
+    const goToLogIn = () => {
+        history.push("/login")
+        return <Redirect to="/login" />
+    }
+
     return (
         <div>
             Sign up
@@ -30,6 +35,8 @@ const SignUp = ({ history }) => {
                 </label>
                 <button type="submit">Sign Up</button>
             </form>
+            <button onClick={goToLogIn} >Go to log in</button>
+
         </div>
     );
 };

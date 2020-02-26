@@ -24,7 +24,12 @@ const LogIn = ({ history }) => {
 
     // if user is not null, then it is authenticated
     if (currentUser) {
-        return <Redirect to="/" />;
+        return <Redirect to="/" />
+    }
+
+    const goToSignUp = () => {
+        history.push("/signup")
+        return <Redirect to="/signup" />
     }
 
     return (
@@ -39,6 +44,8 @@ const LogIn = ({ history }) => {
                 </label>
                 <button type="submit">Log in</button>
             </form>
+            <button onClick={goToSignUp} >Go to sign up</button>
+
         </div>
     );
 };
