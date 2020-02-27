@@ -1,0 +1,54 @@
+.container{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: [main] 10% [main-content] 80% [content-end] 10% [column-end];
+    grid-template-rows: [main] 20% [search] 15% [list] 60% [row-end];
+    position: fixed;
+}
+
+.sign-out-button{
+    background: #dbdbdb;
+    border: none;
+    grid-column-start: content-end;
+    grid-column-end: column-end;
+    font-size: 26px;
+    font-weight: 600;
+    height: 40px;
+    width: 160px;
+    margin-top: 25px;
+    border-radius: 10px;
+    color: #1C1B20;
+}
+
+.sign-out-button:hover{
+    cursor: pointer;
+    background: white;
+    color: #000000;
+}
+
+.title{
+    grid-column-start: main-content;
+    grid-column-end: content-end;
+    text-align: center;
+    font-size: 80px;
+    color: white;
+    margin-top: 25px;
+}
+
+.search-bar{
+    grid-column-start: main-content;
+    grid-column-end: content-end;
+    grid-row-start: search;
+    grid-row-end: list;
+    color: white;
+    margin: 50px;
+    text-align: center;
+}
+
+.top-movies-list{
+    grid-column-start: main-content;
+    grid-column-end: content-end;
+    grid-row-start: list;
+    grid-row-end: row-end;
+}
