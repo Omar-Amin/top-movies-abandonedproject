@@ -2,6 +2,7 @@ import React from "react"
 import base from "../auth/base"
 import "./Home.css"
 import TopMoviesList from "../components/TopMoviesList"
+import SearchBar from "../components/SearchBar"
 
 class Home extends React.Component {
     constructor() {
@@ -11,12 +12,18 @@ class Home extends React.Component {
         }
     }
 
-    //Search should add movies?
+    componentWillMount() {
+        // fetch from firebase
+    }
+
+    // search should add movies?
     render() {
         return (
             <div className="container">
                 <h1 className="title">Your top movies</h1>
-                <div className="search-bar">[implement search]</div>
+                <div className="search-bar">
+                    <SearchBar />
+                </div>
                 <div className="top-movies-list">
                     <TopMoviesList></TopMoviesList>
                 </div>
