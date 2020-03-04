@@ -1,5 +1,6 @@
 import React from "react"
 import apiKey from "../auth/apiKey"
+import "../styling/SearchBar.css"
 
 class SearchBar extends React.Component {
     constructor() {
@@ -15,10 +16,26 @@ class SearchBar extends React.Component {
                     .then((res) => console.log(res)) */
     }
 
+    // when typing search the query and add the object to an li
+    // then add a style to the list
+    // change the style of the scrollbar
     render() {
         return (
             <div>
-                ayy
+                <form className="form-style">
+                    <input
+                        type="text"
+                        placeholder="Search for a movie..."
+                        name="searchbar"
+                        className="search-bar-style">
+                    </input>
+                    <div className="search-list">
+                        <li>hej</li>
+                        <li>hej</li>
+                        <li>hej</li>
+                    </div>
+                </form>
+
             </div>
         )
     }

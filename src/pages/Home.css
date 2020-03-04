@@ -1,9 +1,14 @@
+.outer-container{
+    height: 100%;
+    display: block;
+}
+
 .container{
     height: 100%;
     width: 100%;
     display: grid;
     grid-template-columns: [main] 10% [main-content] 80% [content-end] 10% [column-end];
-    grid-template-rows: [main] 20% [search] 15% [list] 60% [row-end];
+    grid-template-rows: [main] 20% [search] 15% [list] 60% [row-end] 15% [row-total-end];
     position: fixed;
 }
 
@@ -42,7 +47,7 @@
     grid-row-start: search;
     grid-row-end: list;
     color: white;
-    margin: 50px;
+    margin-top: 25px;
     text-align: center;
 }
 

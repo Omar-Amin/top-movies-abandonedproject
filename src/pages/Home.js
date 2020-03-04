@@ -19,16 +19,19 @@ class Home extends React.Component {
     // search should add movies?
     render() {
         return (
-            <div className="container">
-                <h1 className="title">Your top movies</h1>
-                <div className="search-bar">
-                    <SearchBar />
+            <div className="outer-container">
+                <div className="container">
+                    <h1 className="title">Your top movies</h1>
+                    <div className="search-bar">
+                        <SearchBar />
+                    </div>
+                    <div className="top-movies-list">
+                        <TopMoviesList></TopMoviesList>
+                    </div>
+                    <button className="sign-out-button" onClick={() => base.auth().signOut()}>Sign out</button>
                 </div>
-                <div className="top-movies-list">
-                    <TopMoviesList></TopMoviesList>
-                </div>
-                <button className="sign-out-button" onClick={() => base.auth().signOut()}>Sign out</button>
             </div>
+
         )
     }
 }
