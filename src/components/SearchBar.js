@@ -7,7 +7,11 @@ class SearchBar extends React.Component {
         super()
 
         this.state = {
+            currentSearchValue: "",
+            finished: true
         }
+
+        this.searchForMovies = this.searchForMovies.bind(this)
     }
 
     componentWillMount() {
@@ -16,20 +20,39 @@ class SearchBar extends React.Component {
                     .then((res) => console.log(res)) */
     }
 
+    searchForMovies(e) {
+        const { finished } = this.state
+
+        // in order we dont spam the server for each character
+        // we request when 0,5s has passed
+        if (finished) {
+            this.setState({ finished: false })
+            setTimeout(function () {
+                console.log(this.state.currentSearchValue)
+                this.setState({ finished: true })
+            }.bind(this), 500)
+        }
+
+        this.setState({
+            currentSearchValue: e.target.value,
+        })
+    }
+
     // when typing search the query and add the object to an li
     // then add a style to the list
     // change the style of the scrollbar
     render() {
         return (
-            <div>
+            <div className="search-container">
                 <form className="form-style">
                     <input
                         type="text"
                         placeholder="Search for a movie..."
                         name="searchbar"
-                        className="search-bar-style">
+                        className="search-bar-style"
+                        onChange={this.searchForMovies}>
                     </input>
-                    <div className="search-list">
+                    <div className="search-list" style={{ visibility: this.state.currentSearchValue !== "" ? "visible" : "hidden" }}>
                         <li>hej</li>
                         <li>hej</li>
                         <li>hej</li>

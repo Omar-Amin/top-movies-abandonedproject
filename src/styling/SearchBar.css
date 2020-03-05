@@ -1,7 +1,12 @@
+.search-container{
+    height: 100%;
+    width: 100%;
+}
+
 .search-bar-style{
     border: white;
     background: white;
-    outline-color: white;
+    outline-color: none;
     font-size: 36px;
     color: #1C1B20;
     height: 65px;
@@ -14,6 +19,7 @@
     background-color: green;
     overflow: scroll;
     max-height: 500px;
+    visibility: hidden;
 }
 
 .form-style{
