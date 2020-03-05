@@ -28,7 +28,11 @@ class SearchBar extends React.Component {
         if (finished) {
             this.setState({ finished: false })
             setTimeout(function () {
-                console.log(this.state.currentSearchValue)
+                // searching the TMDB should be here
+                fetch("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&language=en-US&query=" + this.state.currentSearchValue + "&page=1")
+                    .then(res => res.json())
+                    .then((res) => console.log(res))
+
                 this.setState({ finished: true })
             }.bind(this), 500)
         }
