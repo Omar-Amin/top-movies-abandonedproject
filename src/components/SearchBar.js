@@ -2,6 +2,7 @@ import React from "react"
 import apiKey from "../auth/apiKey"
 import genres from "../data/genres"
 import "../styling/SearchBar.css"
+import SearchListItem from "./SearchListItem"
 
 class SearchBar extends React.Component {
 
@@ -35,7 +36,7 @@ class SearchBar extends React.Component {
 
                 const obj = {
                     id: movie.id, poster: "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movie.poster_path,
-                    rating: movie.vote_average, title: movie.title, releaste_date: movie.release_date, grenres: genreList
+                    rating: movie.vote_average, title: movie.title, release_date: movie.release_date, grenres: genreList
                 }
                 data.push(obj)
             })
@@ -47,10 +48,9 @@ class SearchBar extends React.Component {
 
     searchForMovies(e) {
         const { finished } = this.state
-
         // in order we dont spam the server for each character
         // we request when 0,5s has passed
-        if (finished) {
+        if (finished && e.target.value !== "") {
             this.setState({ finished: false })
             setTimeout(function () {
                 // searching the TMDB should be here
@@ -72,6 +72,7 @@ class SearchBar extends React.Component {
     // then add a style to the list
     // change the style of the scrollbar
     render() {
+        const { currentSearchValue, searchData } = this.state
         return (
             <div className="search-container">
                 <form className="form-style">
@@ -82,10 +83,14 @@ class SearchBar extends React.Component {
                         className="search-bar-style"
                         onChange={this.searchForMovies}>
                     </input>
-                    <div className="search-list" style={{ visibility: this.state.currentSearchValue !== "" ? "visible" : "hidden" }}>
-                        <li>hej</li>
-                        <li>hej</li>
-                        <li>hej</li>
+                    <div className="search-list" style={{ visibility: currentSearchValue !== "" ? "visible" : "hidden" }}>
+                        {searchData.map(item => <SearchListItem id={item.id}
+                            poster={item.poster}
+                            rating={item.rating}
+                            title={item.title}
+                            release_date={item.release_date}
+                            genres={item.genres}
+                            key={item.id} />)}
                     </div>
                 </form>
 
