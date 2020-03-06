@@ -1,23 +1,48 @@
 import React from "react"
 import apiKey from "../auth/apiKey"
+import genres from "../data/genres"
 import "../styling/SearchBar.css"
 
 class SearchBar extends React.Component {
+
     constructor() {
         super()
 
         this.state = {
             currentSearchValue: "",
-            finished: true
+            finished: true,
+            searchData: [{ id: -1, poster: "", rating: 0.0, title: "", release_date: "", genres: [""] }],
+            listOfResults: []
         }
 
         this.searchForMovies = this.searchForMovies.bind(this)
     }
 
     componentWillMount() {
-        /*         fetch("https://api.themoviedb.org/3/search/company?api_key=" + apiKey + "&query=star&page=1")
-                    .then(res => res.json())
-                    .then((res) => console.log(res)) */
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { listOfResults } = this.state
+        // basically transforsm the data to searchData
+        if (prevState.listOfResults !== listOfResults && listOfResults !== undefined) {
+            var data = []
+
+            listOfResults.map(movie => {
+                var genreList = []
+                movie.genre_ids.map(id => {
+                    genreList.push(genres.find(x => x.id === id).name)
+                })
+
+                const obj = {
+                    id: movie.id, poster: "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movie.poster_path,
+                    rating: movie.vote_average, title: movie.title, releaste_date: movie.release_date, grenres: genreList
+                }
+                data.push(obj)
+            })
+
+            this.setState({ searchData: data })
+        }
+
     }
 
     searchForMovies(e) {
@@ -31,8 +56,9 @@ class SearchBar extends React.Component {
                 // searching the TMDB should be here
                 fetch("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&language=en-US&query=" + this.state.currentSearchValue + "&page=1")
                     .then(res => res.json())
-                    .then((res) => console.log(res))
-
+                    .then((res) => {
+                        this.setState({ listOfResults: res.results })
+                    })
                 this.setState({ finished: true })
             }.bind(this), 500)
         }
