@@ -12,7 +12,7 @@ class SearchBar extends React.Component {
         this.state = {
             currentSearchValue: "",
             finished: true,
-            searchData: [{ id: -1, poster: "", rating: 0.0, title: "", release_date: "", genres: [""] }],
+            searchData: [{ id: -1, poster: "", rating: 0.0, title: "", release_date: "", genres: "" }],
             listOfResults: []
         }
 
@@ -36,7 +36,7 @@ class SearchBar extends React.Component {
 
                 const obj = {
                     id: movie.id, poster: "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movie.poster_path,
-                    rating: movie.vote_average, title: movie.title, release_date: movie.release_date, grenres: genreList
+                    rating: movie.vote_average, title: movie.title, release_date: movie.release_date, genres: genreList.join(', ')
                 }
                 data.push(obj)
             })
@@ -73,6 +73,7 @@ class SearchBar extends React.Component {
     // change the style of the scrollbar
     render() {
         const { currentSearchValue, searchData } = this.state
+        console.log(searchData)
         return (
             <div className="search-container">
                 <form className="form-style">
