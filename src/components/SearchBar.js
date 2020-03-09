@@ -17,9 +17,14 @@ class SearchBar extends React.Component {
         }
 
         this.searchForMovies = this.searchForMovies.bind(this)
+        this.addToDatabase = this.addToDatabase.bind(this)
     }
 
     componentWillMount() {
+    }
+
+    addToDatabase(id, poster, rating, title, release_date, gernes) {
+        console.log("yep, added")
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -73,7 +78,7 @@ class SearchBar extends React.Component {
     // change the style of the scrollbar
     render() {
         const { currentSearchValue, searchData } = this.state
-        console.log(searchData)
+
         return (
             <div className="search-container">
                 <form className="form-style">
@@ -91,7 +96,8 @@ class SearchBar extends React.Component {
                             title={item.title}
                             release_date={item.release_date}
                             genres={item.genres}
-                            key={item.id} />)}
+                            key={item.id}
+                            addToDatabase={this.addToDatabase} />)}
                     </div>
                 </form>
 

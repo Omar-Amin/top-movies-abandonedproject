@@ -53,11 +53,19 @@
     text-align: left;
     list-style: none;
     display: grid;
-    grid-template-columns: [main] 85px [title] 300px [main-end];
+    grid-template-columns: [main] 85px [title] 300px [main-end] 50px [button];
     background-color: #1F1F1F;
     height: 120px;
     max-width: 450px;
     border-bottom: 1px solid rgb(102, 102, 102);
+}
+
+.search-item-add{
+    grid-column-start: main-end;
+    grid-column-end: button;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
 }
 
 .search-list-item:hover{
