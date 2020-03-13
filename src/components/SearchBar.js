@@ -3,28 +3,49 @@ import apiKey from "../auth/apiKey"
 import genres from "../data/genres"
 import "../styling/SearchBar.css"
 import SearchListItem from "./SearchListItem"
+import base from "../auth/base"
+import firebase from "firebase"
 
 class SearchBar extends React.Component {
 
     constructor() {
         super()
 
+        this.database = base.database()
+
         this.state = {
             currentSearchValue: "",
             finished: true,
             searchData: [{ id: -1, poster: "", rating: 0.0, title: "", release_date: "", genres: "" }],
-            listOfResults: []
+            listOfResults: [],
+            userID: base.auth().currentUser.uid
         }
+
 
         this.searchForMovies = this.searchForMovies.bind(this)
         this.addToDatabase = this.addToDatabase.bind(this)
     }
 
-    componentWillMount() {
+    componentDidMount() {
+
     }
 
-    addToDatabase(id, poster, rating, title, release_date, gernes) {
-        console.log("yep, added")
+    addToDatabase(id, poster, rating, title, release_date, genres) {
+        const { userID } = this.state
+        const postData = {
+            id: id,
+            poster: poster,
+            rating: rating,
+            title: title,
+            release_date: release_date,
+            genres: genres,
+            ranking: 0
+        }
+
+        var root = this.database.ref()
+        var moviesRef = root.child(userID + "/" + "movies")
+        var newRef = moviesRef.push()
+        newRef.set(postData)
     }
 
     componentDidUpdate(prevProps, prevState) {

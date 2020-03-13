@@ -9,15 +9,22 @@ class Home extends React.Component {
         super()
 
         this.state = {
+            userID: ""
         }
     }
 
     componentWillMount() {
         // fetch from firebase
+        base.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ userID: user.uid })
+            }
+        })
     }
 
     // search should add movies?
     render() {
+
         return (
             <div className="outer-container">
                 <div className="container">
