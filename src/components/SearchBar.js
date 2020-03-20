@@ -43,7 +43,7 @@ class SearchBar extends React.Component {
         }
 
         var root = this.database.ref()
-        var moviesRef = root.child(userID + "/" + "movies")
+        var moviesRef = root.child(`${userID}/movies`)
         var newRef = moviesRef.push()
         newRef.set(postData)
     }

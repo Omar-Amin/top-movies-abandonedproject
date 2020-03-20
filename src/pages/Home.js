@@ -7,22 +7,42 @@ import SearchBar from "../components/SearchBar"
 class Home extends React.Component {
     constructor() {
         super()
+        this.database = base.database()
 
         this.state = {
-            userID: ""
+            userID: base.auth().currentUser.uid
         }
+
+        this.retrieveData = this.retrieveData.bind(this)
     }
+
 
     componentWillMount() {
         // fetch from firebase
         base.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ userID: user.uid })
+                this.retrieveData()
             }
         })
     }
 
-    // search should add movies?
+    //TODO: Cannot add duplicates (in searchbar.js), and delete from database when deleted (in topmoviesList)
+    retrieveData() {
+        const { userID } = this.state
+        var root = this.database.ref()
+        var moviesRef = root.child(`${userID}/movies`)
+        var currentData = []
+        moviesRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childData = childSnapshot.val();
+                currentData.push(childData)
+            });
+        });
+
+        this.setState({ currentData: currentData })
+    }
+
     render() {
 
         return (
