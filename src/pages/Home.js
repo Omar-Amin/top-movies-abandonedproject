@@ -10,7 +10,8 @@ class Home extends React.Component {
         this.database = base.database()
 
         this.state = {
-            userID: base.auth().currentUser.uid
+            userID: base.auth().currentUser.uid,
+            currentData: new Map()
         }
 
         this.retrieveData = this.retrieveData.bind(this)
@@ -29,28 +30,28 @@ class Home extends React.Component {
 
     //TODO: Cannot add duplicates (in searchbar.js), and delete from database when deleted (in topmoviesList)
     retrieveData() {
-        const { userID } = this.state
+        const { userID, currentData } = this.state
         var root = this.database.ref()
         var moviesRef = root.child(`${userID}/movies`)
-        var currentData = []
         moviesRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childData = childSnapshot.val();
-                currentData.push(childData)
+                currentData.set(childData.id, childData)
             });
+        }).then(() => {
+            this.setState({ currentData: currentData })
         });
 
-        this.setState({ currentData: currentData })
     }
 
     render() {
-
+        const { currentData } = this.state
         return (
             <div className="outer-container">
                 <div className="container">
                     <h1 className="title">Your top movies</h1>
                     <div className="search-bar">
-                        <SearchBar />
+                        <SearchBar currentData={currentData} />
                     </div>
                     <div className="top-movies-list">
                         <TopMoviesList></TopMoviesList>

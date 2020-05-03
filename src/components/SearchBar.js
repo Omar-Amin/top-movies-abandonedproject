@@ -18,7 +18,8 @@ class SearchBar extends React.Component {
             finished: true,
             searchData: [{ id: -1, poster: "", rating: 0.0, title: "", release_date: "", genres: "" }],
             listOfResults: [],
-            userID: base.auth().currentUser.uid
+            userID: base.auth().currentUser.uid,
+            currentData: new Map()
         }
 
 
@@ -26,26 +27,29 @@ class SearchBar extends React.Component {
         this.addToDatabase = this.addToDatabase.bind(this)
     }
 
-    componentDidMount() {
+    componentWillMount() {
 
     }
 
     addToDatabase(id, poster, rating, title, release_date, genres) {
-        const { userID } = this.state
-        const postData = {
-            id: id,
-            poster: poster,
-            rating: rating,
-            title: title,
-            release_date: release_date,
-            genres: genres,
-            ranking: 0
+        if (this.state.currentData.get(id) === undefined) {
+            const { userID } = this.state
+            const postData = {
+                id: id,
+                poster: poster,
+                rating: rating,
+                title: title,
+                release_date: release_date,
+                genres: genres,
+                ranking: 0
+            }
+
+            var root = this.database.ref()
+            var moviesRef = root.child(`${userID}/movies`)
+            var newRef = moviesRef.push()
+            newRef.set(postData)
         }
 
-        var root = this.database.ref()
-        var moviesRef = root.child(`${userID}/movies`)
-        var newRef = moviesRef.push()
-        newRef.set(postData)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -69,7 +73,10 @@ class SearchBar extends React.Component {
 
             this.setState({ searchData: data })
         }
-
+        if (prevState.currentData != this.props.currentData) {
+            const { currentData } = this.props
+            this.setState({ currentData: currentData })
+        }
     }
 
     searchForMovies(e) {
@@ -98,8 +105,7 @@ class SearchBar extends React.Component {
     // then add a style to the list
     // change the style of the scrollbar
     render() {
-        const { currentSearchValue, searchData } = this.state
-
+        const { currentSearchValue, searchData, currentData } = this.state
         return (
             <div className="search-container">
                 <form className="form-style">
