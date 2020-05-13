@@ -11,7 +11,8 @@ class Home extends React.Component {
 
         this.state = {
             userID: base.auth().currentUser.uid,
-            currentData: new Map()
+            currentData: new Map(),
+            currentObject: []
         }
 
         this.retrieveData = this.retrieveData.bind(this)
@@ -32,20 +33,22 @@ class Home extends React.Component {
     retrieveData() {
         const { userID, currentData } = this.state
         var root = this.database.ref()
+        var currentObject = []
         var moviesRef = root.child(`${userID}/movies`)
         moviesRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childData = childSnapshot.val();
+                currentObject.push(childData)
                 currentData.set(childData.id, childData)
             });
         }).then(() => {
-            this.setState({ currentData: currentData })
+            this.setState({ currentData: currentData, currentObject: currentObject })
         });
 
     }
 
     render() {
-        const { currentData } = this.state
+        const { currentData, currentObject } = this.state
         return (
             <div className="outer-container">
                 <div className="container">
@@ -54,7 +57,7 @@ class Home extends React.Component {
                         <SearchBar currentData={currentData} />
                     </div>
                     <div className="top-movies-list">
-                        <TopMoviesList></TopMoviesList>
+                        <TopMoviesList topMovies={currentObject}></TopMoviesList>
                     </div>
                     <button className="sign-out-button" onClick={() => base.auth().signOut()}>Sign out</button>
                 </div>

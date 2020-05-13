@@ -73,7 +73,7 @@ class SearchBar extends React.Component {
 
             this.setState({ searchData: data })
         }
-        if (prevState.currentData != this.props.currentData) {
+        if (prevState.currentData !== this.props.currentData) {
             const { currentData } = this.props
             this.setState({ currentData: currentData })
         }
@@ -105,7 +105,7 @@ class SearchBar extends React.Component {
     // then add a style to the list
     // change the style of the scrollbar
     render() {
-        const { currentSearchValue, searchData, currentData } = this.state
+        const { currentSearchValue, searchData } = this.state
         return (
             <div className="search-container">
                 <form className="form-style">
